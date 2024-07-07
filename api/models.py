@@ -18,8 +18,8 @@ class User(AbstractUser):
 #         verbose_name = 'Client'
 #         verbose_name_plural = 'Clients'
 
-# class Distrito(models.Model):
-#     nombre_distrito = models.CharField(max_length=50)
+class Distrito(models.Model):
+    nombre_distrito = models.CharField(max_length=50,unique=True)
         
 # class Reporte(models.Model):
 #     client = models.ForeignKey(Client, on_delete=models.CASCADE)

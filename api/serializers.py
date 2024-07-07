@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Distrito
 
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,3 +24,9 @@ class ClientSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(style={'input_type': 'password'}, trim_whitespace=False)
+    
+class DistritoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Distrito
+        fields = '__all__'
+
