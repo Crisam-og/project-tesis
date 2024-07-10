@@ -173,6 +173,7 @@ function marcarCoordenadas(lat, lng, id) {
     // Limpiar la ruta existente si la hay
     if (directionsRenderer) {
         directionsRenderer.setMap(null);
+        directionsRenderer.setDirections({routes: []});
         directionsRenderer.setMap(map);
     }
 
@@ -200,6 +201,13 @@ function deleteMarcador(id) {
         markers[index].setMap(null); // Eliminar el marcador del mapa
         markers.splice(index, 1); // Eliminar el marcador del array
         console.log("Marcador #" + id + " eliminado.");
+
+        // Limpiar la ruta si se eliminó un marcador
+        if (directionsRenderer) {
+            directionsRenderer.setMap(null);
+            directionsRenderer.setDirections({routes: []});
+            directionsRenderer.setMap(map);
+        }
     } else {
         console.log("Marcador #" + id + " no encontrado.");
     }
@@ -220,6 +228,7 @@ function eliminarTodosLosMarcadores() {
     markers = [];
     if (directionsRenderer) {
         directionsRenderer.setMap(null);
+        directionsRenderer.setDirections({routes: []});
     }
 }
 
@@ -231,8 +240,8 @@ function calcularRutaOptima() {
         alert("Se necesitan al menos dos marcadores para calcular una ruta.");
         return;
     }
-
-    var waypoints = markers.slice(1, -1).map(function(marker) {
+    // Esto toma todos los marcadores excepto el primero y el último, y los convierte en waypoints (puntos intermedios) para la ruta.
+    var waypoints = markers.slice(1, -1).map(function(marker) { 
         return {
             location: marker.getPosition(),
             stopover: true
@@ -242,8 +251,8 @@ function calcularRutaOptima() {
     console.log("Waypoints:", waypoints);
 
     var request = {
-        origin: markers[0].getPosition(),
-        destination: markers[markers.length - 1].getPosition(),
+        origin: markers[0].getPosition(), // Se establece el primer marcador en el array markers como el punto de origen.
+        destination: markers[markers.length - 1].getPosition(), // Se establece el último marcador en el array markers como el punto de destino
         waypoints: waypoints,
         optimizeWaypoints: true,
         travelMode: google.maps.TravelMode.DRIVING

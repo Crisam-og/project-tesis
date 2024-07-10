@@ -17,12 +17,12 @@
     <!-- Sweet Alert -->
   <script src="{% static 'lib/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
 </head>
-<body class="hold-transition login-page" style="background-image: url('{% static 'lib/website-v1/assets/img/hero-carousel/login_screen.jpg' %}')">
+<body class="hold-transition login-page">
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card card-outline card-danger">
     <div class="card-header text-center">
-      <a class="h1"><b>Cadrick</b>Ingenieros</a>
+      <a class="h1"><b>Admin</b>Cix Clean</a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Inicia sesión para entrar</p>
@@ -31,6 +31,7 @@
         <input type="hidden" name="next" value="{{ next }}">
         {% csrf_token %}
         <div class="input-group mb-3">
+          
             {{ form.username }}
           
           <div class="input-group-append">
