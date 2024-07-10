@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> {{ title }} </title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/css/adminlte.min.css' %}">
+    <!-- Sweet Alert -->
+  <script src="{% static 'lib/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
+</head>
+<body class="hold-transition login-page" style="background-image: url('{% static 'lib/website-v1/assets/img/hero-carousel/login_screen.jpg' %}')">
+<div class="login-box">
+  <!-- /.login-logo -->
+  <div class="card card-outline card-danger">
+    <div class="card-header text-center">
+      <a class="h1"><b>Cadrick</b>Ingenieros</a>
+    </div>
+    <div class="card-body">
+      <p class="login-box-msg">Inicia sesión para entrar</p>
+
+      <form action="." method="post">
+        <input type="hidden" name="next" value="{{ next }}">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            {{ form.username }}
+          
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user-alt"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+            {{ form.password }}
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <!-- /.col -->
+          <div class="col-lg-12">
+            <button type="submit" class="btn btn-danger btn-block">Ingresar <i class="fas fa-sign-in-alt"></i></button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+      <!-- /.social-auth-links -->
+
+    </div>
+    <!-- /.card-body -->
+  </div>
+<script type="application/javascript">
+        {% if form.errors %} 
+        var errors = '';
+        {% for field in form %} 
+            {% for error in field.errors %}
+                errors += '{{ error }}\n';
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+                errors += '{{ error }}\n';
+            {% endfor %}
+        Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: errors,
+        });
+        {% endif %}
+</script>
+
+</div>
+
+
+<!-- jQuery -->
+<script src="{% static 'lib/adminlte-3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'lib/adminlte-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'lib/adminlte-3.0.4/dist/js/adminlte.min.js' %}"></script>
+</body>
+</html>

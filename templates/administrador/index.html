@@ -1,0 +1,121 @@
+{% extends 'administrador/body.html' %}
+
+{% block content %}
+<div class="card mx-4 my-3">
+    <div class="card-body">{{ formatted_datetime }}</div>
+  </div>
+  <div class="row mx-4 my-3">
+    <div class="col-lg-3 col-6">
+      <div class="small-box bg-info">
+        <div class="inner">
+          <h3 id="num_users">{{ proyectos }}</h3>
+          <p id="username">Proyectos</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-building"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-6">
+      <div class="small-box bg-success">
+        <div class="inner">
+          <h3 id="num_users">{{ equipo }}</h3>
+          <p id="username">Equipo</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-user-tie"></i>
+          
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-6">
+      <div class="small-box bg-warning">
+        <div class="inner">
+          <h3 id="num_users">{{ cursos }}</h3>
+          <p id="username">Cursos</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-book"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-6">
+      <div class="small-box bg-orange">
+        <div class="inner">
+          <h3 id="num_users">{{ servicios }}</h3>
+          <p id="username">Servicios</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-hard-hat"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-6">
+      <div class="small-box bg-secondary">
+        <div class="inner">
+          <h3 id="num_users">{{ clientes }}</h3>
+          <p id="username">Clientes</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-users"></i>
+        </div>
+      </div>
+    </div>
+
+  <div class="col-lg-3 col-6">
+    <div class="small-box bg-danger">
+      <div class="inner">
+        <h3 id="num_users">{{ capacitadores }}</h3>
+        <p id="username">Capacitadores</p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-user-graduate"></i>
+      </div>
+    </div>
+  </div>
+
+<div class="col-lg-3 col-6">
+    <div class="small-box bg-lime">
+      <div class="inner">
+        <h3 id="num_users">{{ inscripciones }}</h3>
+        <p id="username">Inscripciones</p>
+      </div>
+      <div class="icon">
+        <i class="far fa-address-card"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="card mx-4 my-3">
+    
+</div>
+<style>
+  
+</style> 
+<!--<div class="bnvd">
+    <h3 class="container__typing">
+         Bienvenido {{ user.username }}
+    </h3>
+</div>-->
+{% endblock %}
+{% block js %}
+<script>
+  
+        {% if messages %}
+        var html = '<p>';
+          {% for message in messages %}
+              html += '{{ message }}<br>';
+          {% endfor %}
+          html += '</p>';    
+          Swal.fire({
+            title: 'Error!',
+            html: html,
+            icon: 'error',
+          });
+        {% endif %}
+    
+      </script>
+{% endblock %}

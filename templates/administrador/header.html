@@ -1,0 +1,118 @@
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{% url 'home' %}" class="nav-link">Home</a>
+      </li>
+    </ul>
+    
+    <ul class="navbar-nav ml-auto">
+        {% if request.user.groups.all %}
+        <li class="nav-item dropdown">
+            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link {% if request.user.groups.all.count > 1 %} dropdown-toggle {% endif %}"> {{ group_name }} </a>
+            {% if request.user.groups.all.count > 1 %}
+            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+                {% for p in request.user.groups.all %}
+                    {% if p.id != request.session.group %}
+                    <li><a href="{% url "user_change_group" p.id %}" class="dropdown-item">{{ p.name }} </a></li>
+                    {% endif %}         
+                {% endfor %}
+                </ul>
+            {% endif %} 
+            </li>
+        {% endif %}
+        
+      <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+              <i class="fas fa-users-cog"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                  <span class="dropdown-header">
+                      Último Acceso: 
+                  </span>
+                  <span style="display: flex; justify-content: center; text-align: center; width: 100%;">{{ request.user.last_login }}</span>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                  <i class="fas fa-edit mr-2"></i> Editar perfil
+                  <span class="float-right text-muted text-sm">3 mins</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">
+                  <i class="fas fa-lock mr-2"></i> Editar password
+                  <span class="float-right text-muted text-sm">12 hours</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item dropdown-footer">
+                  <p>Este sistema te permitira realizar diferentes actividades</p>
+              </a>
+          </div>
+      </li>
+      {% comment %} <li class="nav-item dropdown" id="notifications-open">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="far fa-bell"></i>
+        <span class="badge badge-danger navbar-badge" id="notifications-badge" style="display: none;">0</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" bis_skin_checked="1">
+        <span class="dropdown-item dropdown-header"> Notificaciones</span>
+        <div class="dropdown-divider" bis_skin_checked="1"></div>
+        {% for n in notificaciones_filter %}
+        <a href="{% url "inscripciones_list" %}" class="dropdown-item">
+        <i class="fas fa-envelope mr-2"> {{n.texto }} {{ n.curso }} </i> 
+        <span class="float-right text-muted text-sm">3 mins</span>
+        </a>
+        {% endfor %}
+
+        <div class="dropdown-divider" bis_skin_checked="1"></div>
+        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+        </div>
+    </li> {% endcomment %}
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">
+              <i class="fas fa-power-off" aria-hidden="true"></i>
+          </a>
+      </li>
+  </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  {% comment %} {% block js %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      function updateInscripcionesCount() {
+        fetch("{% url 'inscripciones_count' %}")
+          .then(response => response.json())
+          .then(data => {
+            const currentCount = data.count;
+            const lastVisitedCount = localStorage.getItem('lastVisitedInscripcionesCount') || 0;
+    
+            if (currentCount > lastVisitedCount) {
+              document.getElementById('notifications-badge').textContent = currentCount - lastVisitedCount;
+              document.getElementById('notifications-badge').style.display = 'inline';
+            } else {
+              document.getElementById('notifications-badge').style.display = 'none';
+            }
+    
+            localStorage.setItem('currentInscripcionesCount', currentCount);
+          })
+          .catch(error => console.error('Error fetching inscripciones count:', error));
+      }
+    
+      // Update the count initially
+      updateInscripcionesCount();
+    
+      // Optionally, you can set an interval to periodically update the count
+      setInterval(updateInscripcionesCount, 15000); // Update every 60 seconds
+    
+      // Hide the badge and update the last visited count when clicking on Inscripciones link
+      document.getElementById('notifications-open').addEventListener('click', function() {
+        document.getElementById('notifications-badge').style.display = 'none';
+        const currentCount = localStorage.getItem('currentInscripcionesCount') || 0;
+        localStorage.setItem('lastVisitedInscripcionesCount', currentCount);
+      });
+    });
+    </script>
+    {% endblock %} {% endcomment %}

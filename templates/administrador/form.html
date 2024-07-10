@@ -1,0 +1,87 @@
+{% extends 'administrador/body.html' %}
+{% block head %}
+    {% block head_form %}
+
+    {% endblock %}
+{% endblock %}
+{% block content %}
+
+<form method="post" action="." enctype="multipart/form-data">
+    <div class="card card-primary container-form" style="padding-top: 15px; padding-Left: 30px; padding-right: 30px;">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class= "{{ icon }}"></i>
+                {{ title }}
+            </h3>
+        </div>
+        <div class="card-body">
+
+            {% csrf_token %}
+            <input type="hidden" name="action" value="{{ action }}">
+            
+            {% for field in form.visible_fields %}
+                
+                <div class="form-group">
+                    <label for='{{ field.auto_id }}'>{{ field.label }} </label>
+                    
+                    {{ field }}
+                
+                </div>
+            {% endfor %}
+            
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+            
+            <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
+            
+        </div>
+    </div>
+</form>
+    
+    <script> 
+        {% if form.errors %} 
+         var errors = '';
+         {% for field in form %} 
+            {% for error in field.errors %}
+                errors += '{{ error }}\n';
+            {% endfor %}
+        {% endfor %}
+        Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: errors,
+          });
+          {% endif %}
+
+
+         $('form').on('submit', function(e){
+            e.preventDefault();
+            var parameters = new FormData(this);
+            
+            submit_with_ajax(window.location.pathname, 'Notificación',
+            '¿Estas seguro de realizar la siguiente acción?', parameters, function (){
+                Swal.fire({
+                    title: '¡Éxito!',
+                    text: 'La operación se completó correctamente.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar',
+                    confirmButtonColor: '#3085d6',
+                    preConfirm: ()=>{
+                        location.href = '{{ list_url }}';
+                    },
+                  
+                  allowOutsideClick: () => false,
+                  allowEscapeKey: () => false,
+                });
+            });
+         });
+
+    
+         
+    </script>
+
+
+{% endblock %}
