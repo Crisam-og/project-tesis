@@ -235,6 +235,7 @@ function eliminarTodosLosMarcadores() {
 function calcularRutaOptima() {
     console.log("Iniciando cálculo de ruta");
     console.log("Número de marcadores:", markers.length);
+    var tiempoInicio = performance.now();
     
     if (markers.length < 2) {
         alert("Se necesitan al menos dos marcadores para calcular una ruta.");
@@ -259,8 +260,11 @@ function calcularRutaOptima() {
     };
 
     console.log("Request:", request);
+    var tiempoAntesDeLlamada = performance.now();
+
 
     directionsService.route(request, function(result, status) {
+        var tiempoFinLlamada = performance.now();
         console.log("Resultado del servicio de direcciones:", status);
         if (status === google.maps.DirectionsStatus.OK) {
             directionsRenderer.setDirections(result);
@@ -270,6 +274,13 @@ function calcularRutaOptima() {
             var totalDistance = 0;
             var totalDuration = 0;
             var markerOrder = [];
+            
+            //Variables para caluclar el tiempo en que tarda en generarse la ruta optima
+            var tiempoTotal = performance.now() - tiempoInicio;
+            var tiempoLlamadaAPI = tiempoFinLlamada - tiempoAntesDeLlamada;
+
+            console.log("Tiempo total de ejecución: " + tiempoTotal.toFixed(2) + " ms");
+            console.log("Tiempo de respuesta de la API: " + tiempoLlamadaAPI.toFixed(2) + " ms");
 
             // Agregar el ID del marcador de inicio
             markerOrder.push(markers[0].id.toString());
@@ -295,7 +306,12 @@ function calcularRutaOptima() {
             var durationHours = Math.floor(totalDuration / 3600);
             var durationMinutes = Math.floor((totalDuration % 3600) / 60);
 
+            var tEjecucion = (tiempoTotal.toFixed(2)/1000);
+            var tCallApi = (tiempoLlamadaAPI.toFixed(2)/1000);
+
             // Actualizar la información en el HTML
+            document.getElementById('tiempoEjecución').textContent = tEjecucion + ' seg';
+            document.getElementById('tiempoCallApi').textContent = tCallApi + ' seg';
             document.getElementById('tiempoRecorrido').textContent = durationHours + ' horas ' + durationMinutes + ' minutos';
             document.getElementById('distanciaTotal').textContent = distanceKm + ' km';
             document.getElementById('cantidadMarcadores').textContent = markers.length;
